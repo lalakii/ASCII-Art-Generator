@@ -1,0 +1,32 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.neberox.library.asciicreator'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 34
+        versionCode 2
+        versionName "0.0.2"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    project.archivesBaseName = 'asciicreator'
+}
+
+tasks.configureEach {
+    if (it.name.toLowerCase().contains("aarmetadata")) {
+        it.enabled = false
+    }
+}

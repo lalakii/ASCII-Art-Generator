@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.iamverycute.ascii_art_sample'
+    compileSdk 34
+    defaultConfig {
+        applicationId 'com.iamverycute.ascii_art_sample'
+        targetSdk 34
+        minSdk 24
+        versionCode 3
+        versionName '3'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            jniDebuggable false
+            crunchPngs true
+            debuggable false
+            renderscriptDebuggable false
+            signingConfig signingConfigs.debug
+        }
+    }
+    packagingOptions {
+        resources.excludes += 'META-INF/**'
+        resources.excludes += 'org/**'
+        resources.excludes += 'kotlin/**'
+        resources.excludes += 'okhttp3/**'
+        resources.excludes += 'DebugProbesKt.bin'
+    }
+    signingConfigs {
+        release {
+            v1SigningEnabled false
+            v2SigningEnabled true
+            enableV3Signing = true
+            enableV4Signing = true
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_20
+        targetCompatibility JavaVersion.VERSION_20
+    }
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
+}
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.2'
+    implementation project(':asciicreator')
+}
+
+tasks.configureEach {
+    def taskName = it.name.toLowerCase()
+    if (taskName.contains("aarmetadata") ||
+            taskName.contains("artprofile")) {
+        it.enabled = false
+    }
+}
