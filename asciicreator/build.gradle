@@ -1,0 +1,71 @@
+import cn.lalaki.pub.internal.BaseCentralPortalExtension
+
+plugins {
+    id 'com.android.library'
+    id 'signing'
+    id 'cn.lalaki.publisher' version '1.0.5'
+}
+
+android {
+    namespace 'com.neberox.library.asciicreator'
+    compileSdk 35
+    defaultConfig {
+        minSdk 21
+        targetSdk 35
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    base.archivesName = 'asciicreator'
+}
+
+tasks.configureEach {
+    if (it.name.toLowerCase().contains("aarmetadata")) {
+        it.enabled = false
+    }
+}
+group = "cn.lalaki"
+version = "1.0.0"
+signing {
+    useGpgCmd()
+}
+def finalUrl = "https://github.com/lalakii/ASCII-Art-Generator"
+centralPortal {
+    name = "asciicreator"
+    artifactId = "asciicreator"
+    username = System.getenv("TEMP_USER")
+    password = System.getenv("TEMP_PASS")
+    publishingType = BaseCentralPortalExtension.PublishingType.USER_MANAGED
+    pom {
+        url = "asciicreator"
+        description = "An Android open source ASCII Art Generator from any image."
+        licenses {
+            license {
+                name = "The MIT License"
+                url = "https://opensource.org/license/mit"
+            }
+        }
+        developers {
+            developer {
+                name = "lalakii"
+                email = "dazen@189.cn"
+                organization = "lalaki.cn"
+                organizationUrl = "https://github.com/lalakii"
+            }
+        }
+        scm {
+            connection = "scm:git:$finalUrl"
+            developerConnection = "scm:git:$finalUrl"
+            url = finalUrl
+        }
+    }
+}
+tasks.withType(Javadoc).configureEach {
+    failOnError = false
+}
